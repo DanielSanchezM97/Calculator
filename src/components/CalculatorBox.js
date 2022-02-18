@@ -120,7 +120,7 @@ export default class Calculator extends Component {
             <button
               className="calculator-keypad-button"
               value="."
-              onClick={this.props.dot === false ? this.props.handleClick : null}
+              onClick={this.props.PutDot}
             >
               .
             </button>

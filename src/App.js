@@ -20,14 +20,7 @@ class App extends Component {
     const { value } = e.target;
 
     if (value === "=") {
-      if (
-        operator === "+" &&
-        num2 !== "" &&
-        num1 !== "-" &&
-        num2 !== "-" &&
-        num1 !== "-." &&
-        num2 !== "-."
-      ) {
+      if (operator === "+" && num2 !== "") {
         this.setState({
           result:
             (
@@ -40,14 +33,7 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (
-        operator === "-" &&
-        num2 !== "" &&
-        num1 !== "-" &&
-        num2 !== "-" &&
-        num1 !== "-." &&
-        num2 !== "-."
-      ) {
+      } else if (operator === "-" && num2 !== "") {
         this.setState({
           result:
             (
@@ -60,14 +46,7 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (
-        operator === "*" &&
-        num2 !== "" &&
-        num1 !== "-" &&
-        num2 !== "-" &&
-        num1 !== "-." &&
-        num2 !== "-."
-      ) {
+      } else if (operator === "*" && num2 !== "") {
         this.setState({
           result:
             (
@@ -80,14 +59,7 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (
-        operator === "/" &&
-        num2 !== "" &&
-        num1 !== "-" &&
-        num2 !== "-" &&
-        num1 !== "-." &&
-        num2 !== "-."
-      ) {
+      } else if (operator === "/" && num2 !== "") {
         this.setState({
           result:
             (
@@ -100,6 +72,8 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
+      } else if (num2 === "") {
+        alert("Please enter second number");
       } else {
         alert("Please enter a valid expression");
         this.setState({
@@ -126,7 +100,7 @@ class App extends Component {
       value === "*" ||
       value === "/"
     ) {
-      if (num1 !== "-" && num1 !== "-." && num1 !== "") {
+      if (num1 !== "(-" && num1 !== "") {
         console.log("passed operators");
         console.log(num1, typeof num1);
         console.log(num2, typeof num2);
@@ -138,35 +112,11 @@ class App extends Component {
           parenthesis: false,
         });
       }
-    } else if (value === "." && this.state.dot === false && num1 !== "") {
-      if (operator === "") {
-        console.log("passed dot first {if}");
-        this.setState({
-          num1: this.state.num1 + value,
-          dot: true,
-        });
-      } else if (operator !== "" && num2 !== "") {
-        console.log("passed dot second {if}");
-        this.setState({
-          num2: this.state.num2 + value,
-          dot: true,
-        });
-      }
     } else {
-      if (
-        operator === "" &&
-        value !== "." &&
-        parenthesis === false &&
-        num1.length < 15
-      ) {
+      if (operator === "" && value !== "." && num1.length < 15) {
         console.log("passed last else - {if}");
         this.setState({ num1: this.state.num1 + value });
-      } else if (
-        operator !== "" &&
-        value !== "." &&
-        parenthesis === false &&
-        num2.length < 15
-      ) {
+      } else if (operator !== "" && value !== "." && num2.length < 15) {
         console.log("passed last else - {else if}");
         console.log(num2, typeof num2);
         this.setState({ num2: this.state.num2 + value });
@@ -175,22 +125,44 @@ class App extends Component {
   };
 
   ConvertToNegative = () => {
-    if (
-      this.state.num1 === "" &&
-      this.state.operator === "" &&
-      this.state.parenthesis === false
-    ) {
+    const { num1, num2, operator } = this.state;
+
+    if (num1 !== "(-" && operator === "") {
+      console.log("first General Negative Case");
+      if (
+        this.state.num1 === "" &&
+        this.state.operator === "" &&
+        this.state.parenthesis === false
+      ) {
+        console.log("first Negative");
+        this.setState({
+          num1: "(-" + this.state.num1,
+          dot: false,
+        });
+      }
+    } else if (num2 !== "(-" && operator !== "") {
+      console.log("second stage Negative General");
+      if (
+        this.state.num2 === "" &&
+        this.state.operator !== "" &&
+        this.state.parenthesis === false
+      ) {
+        console.log("second Negative");
+        this.setState({
+          num2: "(-" + this.state.num2,
+          dot: false,
+        });
+      }
+    } else if (num1 === "(-" && operator === "") {
+      console.log("First removing Negative");
       this.setState({
-        num1: "-" + this.state.num1,
+        num1: "",
         dot: false,
       });
-    } else if (
-      this.state.num2 === "" &&
-      this.state.operator !== "" &&
-      this.state.parenthesis === false
-    ) {
+    } else if (num2 === "(-" && operator !== "") {
+      console.log("Second removing Negative");
       this.setState({
-        num2: "-" + this.state.num2,
+        num2: "",
         dot: false,
       });
     }
@@ -199,30 +171,68 @@ class App extends Component {
   PutParenthesis = () => {
     const { num1, num2, operator, parenthesis } = this.state;
 
+    if (num1 === "" && operator === "" && parenthesis === false) {
+      this.setState({
+        num1: "(",
+        dot: false,
+        parenthesis: true,
+      });
+    } else if (num2 === "" && operator !== "" && parenthesis === false) {
+      this.setState({
+        num2: "(",
+        dot: false,
+        parenthesis: true,
+      });
+    } else if (num1 === "(" && operator === "") {
+      this.setState({
+        num1: "",
+        dot: false,
+        parenthesis: false,
+      });
+    } else if (num2 === "(" && operator !== "") {
+      this.setState({
+        num2: "",
+        dot: false,
+        parenthesis: false,
+      });
+    }
+  };
+
+  PutDot = () => {
+    const { num1, num2, operator, dot } = this.state;
+
     if (
-      num1 !== "" &&
-      parenthesis === false &&
-      operator === "" &&
-      num1 !== "-" &&
-      num1 !== "-."
+      num1 === "" ||
+      num1 === "(-" ||
+      (num2 === "" && operator !== "") ||
+      num2 === "(-"
     ) {
-      console.log("passed parenthesis num1");
-      this.setState({
-        num1: "(" + num1 + ")",
-        parenthesis: true,
-      });
-    } else if (
-      num2 !== "" &&
-      parenthesis === false &&
-      operator !== "" &&
-      num2 !== "-" &&
-      num2 !== "-."
-    ) {
-      console.log("passed parenthesis num2");
-      this.setState({
-        num2: "(" + num2 + ")",
-        parenthesis: true,
-      });
+      console.log("First General dot");
+      if (operator === "" && dot === false) {
+        console.log("first num1 dot");
+        this.setState({
+          num1: num1 + "0.",
+          dot: true,
+        });
+      } else if (operator !== "" && dot === false) {
+        console.log("second num2 dot");
+        this.setState({
+          num2: num2 + "0.",
+          dot: true,
+        });
+      }
+    } else {
+      if (operator === "" && dot === false) {
+        this.setState({
+          num1: num1 + ".",
+          dot: true,
+        });
+      } else if (operator !== "" && dot === false) {
+        this.setState({
+          num2: num2 + ".",
+          dot: true,
+        });
+      }
     }
   };
 
@@ -234,6 +244,7 @@ class App extends Component {
           handleClick={this.handleClick}
           ConvertToNegative={this.ConvertToNegative}
           PutParenthesis={this.PutParenthesis}
+          PutDot={this.PutDot}
           result={this.state.result}
           num1={this.state.num1}
           num2={this.state.num2}
@@ -292,4 +303,33 @@ export default App;
 //       parenthesis: false,
 //     });
 //   }
+// }
+
+// else if (value === "." && this.state.dot === false && num1 !== "") {
+//   if (operator === "") {
+//     console.log("passed dot first {if}");
+//     this.setState({
+//       num1: this.state.num1 + value,
+//       dot: true,
+//     });
+//   } else if (operator !== "" && num2 !== "") {
+//     console.log("passed dot second {if}");
+//     this.setState({
+//       num2: this.state.num2 + value,
+//       dot: true,
+//     });
+//   }
+
+// if (num1 !== "" && parenthesis === false && operator === "") {
+//   console.log("passed parenthesis num1");
+//   this.setState({
+//     num1: "(" + num1 + ")",
+//     parenthesis: true,
+//   });
+// } else if (num2 !== "" && parenthesis === false && operator !== "") {
+//   console.log("passed parenthesis num2");
+//   this.setState({
+//     num2: "(" + num2 + ")",
+//     parenthesis: true,
+//   });
 // }
