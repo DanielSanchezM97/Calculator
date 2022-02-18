@@ -20,54 +20,50 @@ class App extends Component {
     const { value } = e.target;
 
     if (value === "=") {
-      if (parenthesis === true || parenthesis === false) {
-        console.log("Parenthesis Error");
-        console.log(num1, typeof num1);
-        if (operator === "+" && num2 !== "") {
-          this.setState({
-            result:
-              parseFloat(num1.replace(/\(|\)/g, "")) +
-              parseFloat(num2.replace(/\(|\)/g, "")),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-            parenthesis: false,
-          });
-        } else if (operator === "-" && num2 !== "") {
-          this.setState({
-            result:
-              parseFloat(num1.replace(/\(|\)/g, "")) -
-              parseFloat(num2.replace(/\(|\)/g, "")),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-            parenthesis: false,
-          });
-        } else if (operator === "*" && num2 !== "") {
-          this.setState({
-            result:
-              parseFloat(num1.replace(/\(|\)/g, "")) *
-              parseFloat(num2.replace(/\(|\)/g, "")),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-            parenthesis: false,
-          });
-        } else if (operator === "/" && num2 !== "") {
-          this.setState({
-            result:
-              parseFloat(num1.replace(/\(|\)/g, "")) /
-              parseFloat(num2.replace(/\(|\)/g, "")),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-            parenthesis: false,
-          });
-        }
+      if (operator === "+" && num2 !== "") {
+        this.setState({
+          result:
+            parseFloat(num1.replace(/\(|\)/g, "")) +
+            parseFloat(num2.replace(/\(|\)/g, "")),
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
+      } else if (operator === "-" && num2 !== "") {
+        this.setState({
+          result:
+            parseFloat(num1.replace(/\(|\)/g, "")) -
+            parseFloat(num2.replace(/\(|\)/g, "")),
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
+      } else if (operator === "*" && num2 !== "") {
+        this.setState({
+          result:
+            parseFloat(num1.replace(/\(|\)/g, "")) *
+            parseFloat(num2.replace(/\(|\)/g, "")),
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
+      } else if (operator === "/" && num2 !== "") {
+        this.setState({
+          result:
+            parseFloat(num1.replace(/\(|\)/g, "")) /
+            parseFloat(num2.replace(/\(|\)/g, "")),
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
       }
     } else if (value === "C") {
       this.setState({
@@ -132,21 +128,21 @@ class App extends Component {
 
   ConvertToNegative = () => {
     if (
-      this.state.num1 !== "" &&
+      this.state.num1 === "" &&
       this.state.operator === "" &&
       this.state.parenthesis === false
     ) {
       this.setState({
-        num1: parseFloat(this.state.num1) * -1,
+        num1: "-" + this.state.num1,
         dot: false,
       });
     } else if (
-      this.state.num2 !== "" &&
+      this.state.num2 === "" &&
       this.state.operator !== "" &&
       this.state.parenthesis === false
     ) {
       this.setState({
-        num2: parseFloat(this.state.num2) * -1,
+        num2: "-" + this.state.num2,
         dot: false,
       });
     }
@@ -172,30 +168,6 @@ class App extends Component {
       this.setState({
         num2: "(" + this.state.num2 + ")",
         parenthesis: true,
-      });
-    }
-  };
-
-  ConvertToString = () => {
-    if (
-      this.state.num1 !== "" &&
-      this.state.operator === "" &&
-      this.state.parenthesis === false
-    ) {
-      console.log("passed Convert num1 to string");
-      this.setState({
-        num1: this.state.num1.toString(),
-        dot: false,
-      });
-    } else if (
-      this.state.num2 !== "" &&
-      this.state.operator !== "" &&
-      this.state.parenthesis === false
-    ) {
-      console.log("passed Convert num2 to string");
-      this.setState({
-        num2: this.state.num2.toString(),
-        dot: false,
       });
     }
   };
@@ -229,7 +201,6 @@ export default App;
 // console.log(num1 + parseInt(num2));
 
 // else if (parenthesis === false) {
-//   console.log("No Parenthesis Error");
 //   if (operator === "+" && num2 !== "") {
 //     this.setState({
 //       result: parseFloat(num1) + parseFloat(num2),
@@ -237,6 +208,7 @@ export default App;
 //       num1: "",
 //       num2: "",
 //       dot: false,
+//       parenthesis: false,
 //     });
 //   } else if (operator === "-" && num2 !== "") {
 //     this.setState({
@@ -245,6 +217,7 @@ export default App;
 //       num1: "",
 //       num2: "",
 //       dot: false,
+//       parenthesis: false,
 //     });
 //   } else if (operator === "*" && num2 !== "") {
 //     this.setState({
@@ -253,6 +226,7 @@ export default App;
 //       num1: "",
 //       num2: "",
 //       dot: false,
+//       parenthesis: false,
 //     });
 //   } else if (operator === "/" && num2 !== "") {
 //     this.setState({
@@ -261,6 +235,7 @@ export default App;
 //       num1: "",
 //       num2: "",
 //       dot: false,
+//       parenthesis: false,
 //     });
 //   }
 // }
