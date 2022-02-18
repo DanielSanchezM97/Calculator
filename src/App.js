@@ -20,7 +20,7 @@ class App extends Component {
     const { value } = e.target;
 
     if (value === "=") {
-      if (operator === "+" && num2 !== "") {
+      if (operator === "+" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
             (
@@ -33,7 +33,7 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "-" && num2 !== "") {
+      } else if (operator === "-" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
             (
@@ -46,7 +46,7 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "*" && num2 !== "") {
+      } else if (operator === "*" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
             (
@@ -59,7 +59,14 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "/" && num2 !== "") {
+      } else if (
+        operator === "/" &&
+        num2 !== "" &&
+        num2 !== "0" &&
+        num2 !== "(" &&
+        num2 !== "0." &&
+        num2 !== "(0.)"
+      ) {
         this.setState({
           result:
             (
@@ -72,8 +79,20 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
-      } else if (num2 === "") {
+      } else if (num2 === "" && num1 !== "") {
         alert("Please enter second number");
+      } else if (num1 === "") {
+        alert("Please enter the numbers");
+      } else if (!this.NotZero(num2)) {
+        alert("Cannot divide by zero");
+        this.setState({
+          result: 0,
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
       } else {
         alert("Please enter a valid expression");
         this.setState({
@@ -145,6 +164,12 @@ class App extends Component {
           parenthesis: true,
           dot: false,
         });
+      } else if (num1 === "(") {
+        this.setState({
+          num1: this.state.num1 + "-",
+          parenthesis: true,
+          dot: false,
+        });
       }
     } else if (num2 !== "(-" && operator !== "") {
       console.log("second stage Negative General");
@@ -170,6 +195,7 @@ class App extends Component {
       console.log("First removing Negative");
       this.setState({
         num1: "",
+        parenthesis: false,
         dot: false,
       });
     } else if (num2 === "(-" && operator !== "") {
@@ -245,18 +271,28 @@ class App extends Component {
       num2 !== "(-" &&
       num2.endsWith(")") === false
     ) {
-      console.log("seventh stage");
-      this.setState({
-        num2: this.state.num2 + ")",
-        parenthesis: false,
-      });
+      console.log("General closing parenthesis num2");
+      if (num1.startsWith("(")) {
+        console.log("first closing num2");
+        this.setState({
+          num2: this.state.num2 + ")",
+          parenthesis: false,
+        });
+      } else if (num2.startsWith("(") && num2.endsWith(")") === false) {
+        console.log("second closing parenthesis num2");
+        this.setState({
+          num2: this.state.num2 + ")",
+          parenthesis: true,
+        });
+      }
     } else if (
       num1.includes("(") === true &&
       num1.includes(")") === false &&
       num1 !== "(-" &&
-      parenthesis === false
+      parenthesis === false &&
+      num2.endsWith(")") === false
     ) {
-      console.log("eighth stage");
+      console.log("Second closing parenthesis all");
       this.setState({
         num2: this.state.num2 + ")",
         parenthesis: true,
@@ -271,7 +307,9 @@ class App extends Component {
       num1 === "" ||
       num1 === "(-" ||
       (num2 === "" && operator !== "") ||
-      num2 === "(-"
+      num2 === "(-" ||
+      num1 === "(" ||
+      num2 === "("
     ) {
       console.log("First General dot");
       if (operator === "" && dot === false) {
@@ -287,7 +325,7 @@ class App extends Component {
           dot: true,
         });
       }
-    } else if (num1.endsWith(")")) {
+    } else if (num1.endsWith(")") && !num2.startsWith("(") && dot === false) {
       console.log("last stage parenthesis dot");
       this.setState({
         num1: this.state.num1 + "",
@@ -307,6 +345,18 @@ class App extends Component {
           dot: true,
         });
       }
+    }
+  };
+
+  NotZero = (num2) => {
+    num2 = +num2; // Coerce to number.
+    if (!num2) {
+      // Matches +0, -0, NaN
+      return false;
+    } else if (num2 === "0.") {
+      return false;
+    } else if (num2 === "(0.)") {
+      return false;
     }
   };
 
