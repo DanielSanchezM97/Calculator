@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   handleClick = (e) => {
-    const { num1, num2, operator, parenthesis } = this.state;
+    const { num1, num2, operator } = this.state;
     const { value } = e.target;
 
     if (value === "=") {
@@ -116,7 +116,12 @@ class App extends Component {
       if (operator === "" && value !== "." && num1.length < 15) {
         console.log("passed last else - {if}");
         this.setState({ num1: this.state.num1 + value });
-      } else if (operator !== "" && value !== "." && num2.length < 15) {
+      } else if (
+        operator !== "" &&
+        value !== "." &&
+        num2.length < 15 &&
+        num2.endsWith(")") === false
+      ) {
         console.log("passed last else - {else if}");
         console.log(num2, typeof num2);
         this.setState({ num2: this.state.num2 + value });
@@ -137,6 +142,7 @@ class App extends Component {
         console.log("first Negative");
         this.setState({
           num1: "(-" + this.state.num1,
+          parenthesis: true,
           dot: false,
         });
       }
@@ -150,6 +156,13 @@ class App extends Component {
         console.log("second Negative");
         this.setState({
           num2: "(-" + this.state.num2,
+          parenthesis: true,
+          dot: false,
+        });
+      } else if (num2 === "(") {
+        this.setState({
+          num2: this.state.num2 + "-",
+          parenthesis: true,
           dot: false,
         });
       }
@@ -171,29 +184,82 @@ class App extends Component {
   PutParenthesis = () => {
     const { num1, num2, operator, parenthesis } = this.state;
 
-    if (num1 === "" && operator === "" && parenthesis === false) {
+    if (num1 === "" && operator === "") {
+      console.log("first stage");
       this.setState({
         num1: "(",
         dot: false,
         parenthesis: true,
       });
-    } else if (num2 === "" && operator !== "" && parenthesis === false) {
+    } else if (num2 === "" && operator !== "") {
+      console.log("second stage");
       this.setState({
         num2: "(",
         dot: false,
         parenthesis: true,
       });
     } else if (num1 === "(" && operator === "") {
+      console.log("third stage");
       this.setState({
         num1: "",
         dot: false,
         parenthesis: false,
       });
     } else if (num2 === "(" && operator !== "") {
+      console.log("fourth stage");
       this.setState({
         num2: "",
         dot: false,
         parenthesis: false,
+      });
+    } else if (
+      num1 !== "" &&
+      num1 !== "(" &&
+      num1 !== "(-" &&
+      operator === "" &&
+      parenthesis === false
+    ) {
+      console.log("fifth stage");
+      this.setState({
+        num1: this.state.num1 + "",
+        num2: "(",
+        operator: "*",
+        dot: false,
+        // parenthesis: false,
+      });
+    } else if (
+      num1 !== "" &&
+      operator === "" &&
+      parenthesis === true &&
+      num1 !== "(-"
+    ) {
+      console.log("sixth stage");
+      this.setState({
+        num1: this.state.num1 + ")",
+        parenthesis: false,
+      });
+    } else if (
+      num2 !== "" &&
+      operator !== "" &&
+      // parenthesis === true &&
+      num2 !== "(-" &&
+      num2.endsWith(")") === false
+    ) {
+      console.log("seventh stage");
+      this.setState({
+        num2: this.state.num2 + ")",
+        parenthesis: false,
+      });
+    } else if (
+      num1.includes("(") === true &&
+      num1.includes(")") === false &&
+      num1 !== "(-" &&
+      parenthesis === false
+    ) {
+      console.log("eighth stage");
+      this.setState({
+        num2: this.state.num2 + ")",
+        parenthesis: true,
       });
     }
   };
@@ -221,6 +287,14 @@ class App extends Component {
           dot: true,
         });
       }
+    } else if (num1.endsWith(")")) {
+      console.log("last stage parenthesis dot");
+      this.setState({
+        num1: this.state.num1 + "",
+        operator: "*",
+        num2: "0.",
+        dot: true,
+      });
     } else {
       if (operator === "" && dot === false) {
         this.setState({
