@@ -126,16 +126,18 @@ class App extends Component {
       value === "*" ||
       value === "/"
     ) {
-      console.log("passed operators");
-      console.log(num1, typeof num1);
-      console.log(num2, typeof num2);
-      this.setState({
-        operator: value,
-        num1: this.state.num1 + "",
-        // num2: "",
-        dot: false,
-        parenthesis: false,
-      });
+      if (num1 !== "-" && num1 !== "-." && num1 !== "") {
+        console.log("passed operators");
+        console.log(num1, typeof num1);
+        console.log(num2, typeof num2);
+        this.setState({
+          operator: value,
+          num1: this.state.num1 + "",
+          // num2: "",
+          dot: false,
+          parenthesis: false,
+        });
+      }
     } else if (value === "." && this.state.dot === false && num1 !== "") {
       if (operator === "") {
         console.log("passed dot first {if}");
