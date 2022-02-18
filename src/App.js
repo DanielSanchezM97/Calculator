@@ -20,7 +20,7 @@ class App extends Component {
     const { value } = e.target;
 
     if (value === "=") {
-      if (parenthesis === true) {
+      if (parenthesis === true || parenthesis === false) {
         console.log("Parenthesis Error");
         console.log(num1, typeof num1);
         if (operator === "+" && num2 !== "") {
@@ -68,41 +68,6 @@ class App extends Component {
             parenthesis: false,
           });
         }
-      } else if (parenthesis === false) {
-        console.log("No Parenthesis Error");
-        if (operator === "+" && num2 !== "") {
-          this.setState({
-            result: parseFloat(num1) + parseFloat(num2),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-          });
-        } else if (operator === "-" && num2 !== "") {
-          this.setState({
-            result: parseFloat(num1) - parseFloat(num2),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-          });
-        } else if (operator === "*" && num2 !== "") {
-          this.setState({
-            result: parseFloat(num1) * parseFloat(num2),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-          });
-        } else if (operator === "/" && num2 !== "") {
-          this.setState({
-            result: parseFloat(num1) / parseFloat(num2),
-            operator: "",
-            num1: "",
-            num2: "",
-            dot: false,
-          });
-        }
       }
     } else if (value === "C") {
       this.setState({
@@ -121,6 +86,7 @@ class App extends Component {
     ) {
       console.log("passed operators");
       console.log(num1, typeof num1);
+      console.log(num2, typeof num2);
       this.setState({
         operator: value,
         num1: this.state.num1 + "",
@@ -158,6 +124,7 @@ class App extends Component {
         num2.length < 15
       ) {
         console.log("passed last else - {else if}");
+        console.log(num2, typeof num2);
         this.setState({ num2: this.state.num2 + value });
       }
     }
@@ -260,3 +227,40 @@ export default App;
 // num2 = num2.replace(/[\(\)]/g, "");
 
 // console.log(num1 + parseInt(num2));
+
+// else if (parenthesis === false) {
+//   console.log("No Parenthesis Error");
+//   if (operator === "+" && num2 !== "") {
+//     this.setState({
+//       result: parseFloat(num1) + parseFloat(num2),
+//       operator: "",
+//       num1: "",
+//       num2: "",
+//       dot: false,
+//     });
+//   } else if (operator === "-" && num2 !== "") {
+//     this.setState({
+//       result: parseFloat(num1) - parseFloat(num2),
+//       operator: "",
+//       num1: "",
+//       num2: "",
+//       dot: false,
+//     });
+//   } else if (operator === "*" && num2 !== "") {
+//     this.setState({
+//       result: parseFloat(num1) * parseFloat(num2),
+//       operator: "",
+//       num1: "",
+//       num2: "",
+//       dot: false,
+//     });
+//   } else if (operator === "/" && num2 !== "") {
+//     this.setState({
+//       result: parseFloat(num1) / parseFloat(num2),
+//       operator: "",
+//       num1: "",
+//       num2: "",
+//       dot: false,
+//     });
+//   }
+// }
