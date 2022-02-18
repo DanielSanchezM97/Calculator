@@ -64,6 +64,8 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
+      } else {
+        alert("Please enter a valid expression");
       }
     } else if (value === "C") {
       this.setState({
