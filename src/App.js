@@ -20,44 +20,80 @@ class App extends Component {
     const { value } = e.target;
 
     if (value === "=") {
-      if (operator === "+" && num2 !== "") {
+      if (
+        operator === "+" &&
+        num2 !== "" &&
+        num1 !== "-" &&
+        num2 !== "-" &&
+        num1 !== "-." &&
+        num2 !== "-."
+      ) {
         this.setState({
           result:
-            parseFloat(num1.replace(/\(|\)/g, "")) +
-            parseFloat(num2.replace(/\(|\)/g, "")),
+            (
+              parseFloat(num1.replace(/\(|\)/g, "")) +
+              parseFloat(num2.replace(/\(|\)/g, ""))
+            ).toFixed(10) * 1,
           operator: "",
           num1: "",
           num2: "",
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "-" && num2 !== "") {
+      } else if (
+        operator === "-" &&
+        num2 !== "" &&
+        num1 !== "-" &&
+        num2 !== "-" &&
+        num1 !== "-." &&
+        num2 !== "-."
+      ) {
         this.setState({
           result:
-            parseFloat(num1.replace(/\(|\)/g, "")) -
-            parseFloat(num2.replace(/\(|\)/g, "")),
+            (
+              parseFloat(num1.replace(/\(|\)/g, "")) -
+              parseFloat(num2.replace(/\(|\)/g, ""))
+            ).toFixed(5) + "",
           operator: "",
           num1: "",
           num2: "",
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "*" && num2 !== "") {
+      } else if (
+        operator === "*" &&
+        num2 !== "" &&
+        num1 !== "-" &&
+        num2 !== "-" &&
+        num1 !== "-." &&
+        num2 !== "-."
+      ) {
         this.setState({
           result:
-            parseFloat(num1.replace(/\(|\)/g, "")) *
-            parseFloat(num2.replace(/\(|\)/g, "")),
+            (
+              parseFloat(num1.replace(/\(|\)/g, "")) *
+              parseFloat(num2.replace(/\(|\)/g, ""))
+            ).toFixed(5) + "",
           operator: "",
           num1: "",
           num2: "",
           dot: false,
           parenthesis: false,
         });
-      } else if (operator === "/" && num2 !== "") {
+      } else if (
+        operator === "/" &&
+        num2 !== "" &&
+        num1 !== "-" &&
+        num2 !== "-" &&
+        num1 !== "-." &&
+        num2 !== "-."
+      ) {
         this.setState({
           result:
-            parseFloat(num1.replace(/\(|\)/g, "")) /
-            parseFloat(num2.replace(/\(|\)/g, "")),
+            (
+              parseFloat(num1.replace(/\(|\)/g, "")) /
+              parseFloat(num2.replace(/\(|\)/g, ""))
+            ).toFixed(5) + "",
           operator: "",
           num1: "",
           num2: "",
@@ -66,6 +102,14 @@ class App extends Component {
         });
       } else {
         alert("Please enter a valid expression");
+        this.setState({
+          result: 0,
+          operator: "",
+          num1: "",
+          num2: "",
+          dot: false,
+          parenthesis: false,
+        });
       }
     } else if (value === "C") {
       this.setState({
@@ -151,24 +195,30 @@ class App extends Component {
   };
 
   PutParenthesis = () => {
+    const { num1, num2, operator, parenthesis } = this.state;
+
     if (
-      this.state.num1 !== "" &&
-      this.state.parenthesis === false &&
-      this.state.operator === ""
+      num1 !== "" &&
+      parenthesis === false &&
+      operator === "" &&
+      num1 !== "-" &&
+      num1 !== "-."
     ) {
       console.log("passed parenthesis num1");
       this.setState({
-        num1: "(" + this.state.num1 + ")",
+        num1: "(" + num1 + ")",
         parenthesis: true,
       });
     } else if (
-      this.state.num2 !== "" &&
-      this.state.parenthesis === false &&
-      this.state.operator !== ""
+      num2 !== "" &&
+      parenthesis === false &&
+      operator !== "" &&
+      num2 !== "-" &&
+      num2 !== "-."
     ) {
       console.log("passed parenthesis num2");
       this.setState({
-        num2: "(" + this.state.num2 + ")",
+        num2: "(" + num2 + ")",
         parenthesis: true,
       });
     }
