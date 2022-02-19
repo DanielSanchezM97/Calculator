@@ -132,7 +132,12 @@ class App extends Component {
         });
       }
     } else {
-      if (operator === "" && value !== "." && num1.length < 15) {
+      if (
+        operator === "" &&
+        value !== "." &&
+        num1.length < 15 &&
+        num1.endsWith(")") === false
+      ) {
         console.log("passed last else - {if}");
         this.setState({ num1: this.state.num1 + value });
       } else if (
@@ -327,12 +332,19 @@ class App extends Component {
       }
     } else if (num1.endsWith(")") && !num2.startsWith("(") && dot === false) {
       console.log("last stage parenthesis dot");
-      this.setState({
-        num1: this.state.num1 + "",
-        operator: "*",
-        num2: "0.",
-        dot: true,
-      });
+      if (num2 === "" || num2 === "(-" || num2 === "(") {
+        this.setState({
+          num1: this.state.num1 + "",
+          operator: "*",
+          num2: "0.",
+          dot: true,
+        });
+      } else if (operator !== "" && dot === false) {
+        this.setState({
+          num2: num2 + ".",
+          dot: true,
+        });
+      }
     } else {
       if (operator === "" && dot === false) {
         this.setState({
