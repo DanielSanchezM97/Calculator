@@ -1,3 +1,7 @@
+body {
+  background-color: #c2c2d6;
+}
+
 :root {
   --dark-gray: #333;
   --medium-gray: #383838;
@@ -12,6 +16,14 @@
   --orange: #e2725d;
   --light-orange: #e87d68;
   --white: #e0e9ee;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
 }
 
 .calculator {
@@ -130,4 +142,16 @@
 
 .calculator-keypad-operator:hover {
   background-color: var(--white);
+}
+
+.author {
+  text-align: center;
+  font-family: Share Tech Mono, sans;
+  margin-top: 15px;
+}
+
+.author a {
+  text-decoration: none;
+  color: #00264d;
+  line-height: 26px;
 }
