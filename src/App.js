@@ -23,10 +23,8 @@ class App extends Component {
       if (operator === "+" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
-            (
-              parseFloat(num1.replace(/\(|\)/g, "")) +
-              parseFloat(num2.replace(/\(|\)/g, ""))
-            ).toFixed(10) * 1,
+            parseFloat(num1.replace(/\(|\)/g, "")) +
+            parseFloat(num2.replace(/\(|\)/g, "")),
           operator: "",
           num1: "",
           num2: "",
@@ -36,10 +34,8 @@ class App extends Component {
       } else if (operator === "-" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
-            (
-              parseFloat(num1.replace(/\(|\)/g, "")) -
-              parseFloat(num2.replace(/\(|\)/g, ""))
-            ).toFixed(5) + "",
+            parseFloat(num1.replace(/\(|\)/g, "")) -
+            parseFloat(num2.replace(/\(|\)/g, "")),
           operator: "",
           num1: "",
           num2: "",
@@ -49,10 +45,8 @@ class App extends Component {
       } else if (operator === "*" && num2 !== "" && num2 !== "(") {
         this.setState({
           result:
-            (
-              parseFloat(num1.replace(/\(|\)/g, "")) *
-              parseFloat(num2.replace(/\(|\)/g, ""))
-            ).toFixed(5) + "",
+            parseFloat(num1.replace(/\(|\)/g, "")) *
+            parseFloat(num2.replace(/\(|\)/g, "")),
           operator: "",
           num1: "",
           num2: "",
@@ -69,19 +63,17 @@ class App extends Component {
       ) {
         this.setState({
           result:
-            (
-              parseFloat(num1.replace(/\(|\)/g, "")) /
-              parseFloat(num2.replace(/\(|\)/g, ""))
-            ).toFixed(5) + "",
+            parseFloat(num1.replace(/\(|\)/g, "")) /
+            parseFloat(num2.replace(/\(|\)/g, "")),
           operator: "",
           num1: "",
           num2: "",
           dot: false,
           parenthesis: false,
         });
-      } else if (num2 === "" && num1 !== "") {
+      } else if (num2 === "" && num1 !== "" && num1 !== "(" && num1 !== "(-") {
         alert("Please enter second number");
-      } else if (num1 === "") {
+      } else if (num1 === "" || num1 === "(" || num1 === "(-") {
         alert("Please enter the numbers");
       } else if (!this.NotZero(num2)) {
         alert("Cannot divide by zero");
@@ -119,6 +111,8 @@ class App extends Component {
       value === "*" ||
       value === "/"
     ) {
+      console.log("operators test tuesday 8/3/2022");
+      console.log(this.state.result, typeof this.state.result);
       if (num1 !== "(-" && num1 !== "") {
         console.log("passed operators");
         console.log(num1, typeof num1);
@@ -130,8 +124,23 @@ class App extends Component {
           dot: false,
           parenthesis: false,
         });
+      } else if (
+        (this.state.result !== "0" && value === "*") ||
+        value === "/" ||
+        value === "-" ||
+        value === "+"
+      ) {
+        console.log("passed plus result 8/3/2022");
+        this.setState({
+          num1: Math.round(this.state.result * 100) / 100 + "",
+          num2: "",
+          operator: value,
+          dot: false,
+          parenthesis: false,
+        });
       }
     } else {
+      console.log("Passed last else test tuesday");
       if (
         operator === "" &&
         value !== "." &&

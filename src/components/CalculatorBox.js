@@ -12,7 +12,7 @@ export default class Calculator extends Component {
           </div>
         </div>
         <div className="calculator-result">
-          <h2 className="result_text">Result = </h2>
+          <h2 className="result_text">Ans =</h2>
           {this.props.result !== 0 ? this.props.result : "0"}
         </div>
 
@@ -42,7 +42,13 @@ export default class Calculator extends Component {
             <button
               className="calculator-keypad-operator"
               value="+"
-              onClick={this.props.num1 !== "" ? this.props.handleClick : null}
+              onClick={
+                this.props.num1 !== ""
+                  ? this.props.handleClick
+                  : this.props.result !== 0
+                  ? this.props.handleClick
+                  : null
+              }
             >
               +
             </button>
@@ -72,7 +78,13 @@ export default class Calculator extends Component {
             <button
               className="calculator-keypad-operator"
               value="-"
-              onClick={this.props.num1 !== "" ? this.props.handleClick : null}
+              onClick={
+                this.props.num1 !== ""
+                  ? this.props.handleClick
+                  : this.props.result !== 0
+                  ? this.props.handleClick
+                  : null
+              }
             >
               -
             </button>
@@ -102,7 +114,13 @@ export default class Calculator extends Component {
             <button
               className="calculator-keypad-operator"
               value="*"
-              onClick={this.props.num1 !== "" ? this.props.handleClick : null}
+              onClick={
+                this.props.num1 !== ""
+                  ? this.props.handleClick
+                  : this.props.result !== 0
+                  ? this.props.handleClick
+                  : null
+              }
             >
               x
             </button>
@@ -136,7 +154,13 @@ export default class Calculator extends Component {
             <button
               className="calculator-keypad-operator"
               value="/"
-              onClick={this.props.num1 !== "" ? this.props.handleClick : null}
+              onClick={
+                this.props.num1 !== ""
+                  ? this.props.handleClick
+                  : this.props.result !== 0
+                  ? this.props.handleClick
+                  : null
+              }
             >
               /
             </button>
